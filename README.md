@@ -1,4 +1,4 @@
-[index.html](https://github.com/user-attachments/files/33747794/index.html)
+[index.html](https://github.com/user-attachments/files/33747841/index.html)
 <!doctype html>
 <html lang="en">
 <head>
@@ -140,7 +140,9 @@ if(SITE.youtubeVideoId||SITE.youtubeChannelId){const f=document.createElement('i
 const note=document.getElementById('vote-note');const buttons=[...document.querySelectorAll('[data-vote]')];function showVote(v){buttons.forEach(b=>b.classList.toggle('selected',b.dataset.vote===v));note.textContent=v?`Your pick: ${v}. Thanks for joining the conversation!`:''}try{showVote(localStorage.getItem('viciousVote')||'')}catch{}buttons.forEach(b=>b.addEventListener('click',()=>{try{localStorage.setItem('viciousVote',b.dataset.vote)}catch{}showVote(b.dataset.vote)}));
 </script>
 </body></html>
-<img width="150" height="107" alt="vicious1vp-logo" src="https://github.com/user-attachments/assets/c71108f7-b720-49a1-b910-5940ca86e192" />
-<img width="2048" height="1462" alt="vicious1vp-electric-logo" src="https://github.com/user-attachments/assets/53aeb67c-5e99-4e58-b6a8-e769a096f44d" />
-<img width="1254" height="1254" alt="vicious1vp-character" src="https://github.com/user-attachments/assets/4b62cf98-e9d6-42c7-8672-520bc158bf75" />
-<img width="72" height="72" alt="vicious1vp-background" src="https://github.com/user-attachments/assets/f684cf16-8411-46c6-9601-e5edb311b876" />
+
+
+<img width="72" height="72" alt="vicious1vp-background" src="https://github.com/user-attachments/assets/ed322c93-2c0c-489e-bdc6-8cd765041697" />
+<img width="150" height="107" alt="vicious1vp-logo" src="https://github.com/user-attachments/assets/332f65e4-0a60-400c-9ed6-a22f9ad6b32c" />
+<img width="2048" height="1462" alt="vicious1vp-electric-logo" src="https://github.com/user-attachments/assets/e32ccace-d212-4338-85cf-cf585825968d" />
+<img width="1254" height="1254" alt="vicious1vp-character" src="https://github.com/user-attachments/assets/5e185d8e-2924-4d5c-9954-94e432074733" />
