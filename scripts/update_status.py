@@ -82,7 +82,7 @@ def youtube():
     for video in sorted(videos,key=lambda v:v.get('snippet',{}).get('publishedAt',''),reverse=True):
         if video.get('status',{}).get('privacyStatus')!='public': continue
         duration=video.get('contentDetails',{}).get('duration','')
-        m=re.fullmatch(r'P(?:(\\d+)D)?T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?',duration)
+        m=re.fullmatch(r'P(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?',duration)
         if not m: continue
         seconds=int(m.group(1) or 0)*86400+int(m.group(2) or 0)*3600+int(m.group(3) or 0)*60+int(m.group(4) or 0)
         if seconds<=0: continue
