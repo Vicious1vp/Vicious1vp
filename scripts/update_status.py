@@ -54,7 +54,50 @@ def discord():
         before=messages[-1]['id']
     print('No matching QOTD found; retaining previous QOTD')
 
-for name,func in [('Twitch',twitch),('Discord',discord)]:
+
+def youtube():
+    key=os.environ.get('YOUTUBE_API_KEY')
+    if not key:
+        print('YouTube API key missing; retaining existing data')
+        return
+    def api(resource, **params):
+        params['key']=key
+        return request('https://www.googleapis.com/youtube/v3/'+resource+'?'+urllib.parse.urlencode(params))
+    result=api('channels',part='contentDetails',id='UCJ5wVSvYwwlmMZmLgea77UA')
+    playlist=result['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+    ids=[]
+    page=None
+    while len(ids)<100:
+        params={'part':'contentDetails','playlistId':playlist,'maxResults':50}
+        if page: params['pageToken']=page
+        result=api('playlistItems',**params)
+        ids += [i['contentDetails']['videoId'] for i in result.get('items',[]) if i.get('contentDetails',{}).get('videoId')]
+        page=result.get('nextPageToken')
+        if not page: break
+    videos=[]
+    for start in range(0,len(ids),50):
+        result=api('videos',part='snippet,contentDetails,status',id=','.join(ids[start:start+50]))
+        videos+=result.get('items',[])
+    output={'video':None,'short':None}
+    for video in sorted(videos,key=lambda v:v.get('snippet',{}).get('publishedAt',''),reverse=True):
+        if video.get('status',{}).get('privacyStatus')!='public': continue
+        duration=video.get('contentDetails',{}).get('duration','')
+        m=re.fullmatch(r'P(?:(\\d+)D)?T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?',duration)
+        if not m: continue
+        seconds=int(m.group(1) or 0)*86400+int(m.group(2) or 0)*3600+int(m.group(3) or 0)*60+int(m.group(4) or 0)
+        if seconds<=0: continue
+        kind='short' if seconds<=180 else 'video'
+        if output[kind]: continue
+        info=video['snippet']
+        thumbnails=info.get('thumbnails',{})
+        thumb=(thumbnails.get('high') or thumbnails.get('medium') or thumbnails.get('default') or {}).get('url','')
+        vid=video['id']
+        output[kind]={'id':vid,'title':info.get('title','YouTube upload'),'thumbnail':thumb,'published_at':info.get('publishedAt',''),'url':('https://www.youtube.com/shorts/' if kind=='short' else 'https://www.youtube.com/watch?v=')+vid}
+        if output['video'] and output['short']: break
+    output['checked_at']=datetime.now(timezone.utc).isoformat()
+    write('youtube-latest.json',output)
+
+for name,func in [('Twitch',twitch),('Discord',discord),('YouTube',youtube)]:
     try: func()
     except Exception as exc:
         print(f'{name} refresh failed: {exc}; retaining previous data')
