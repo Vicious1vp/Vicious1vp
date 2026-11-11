@@ -294,7 +294,38 @@ if(TWITCH_STATUS_API_URL)window.setInterval(refreshTwitchStatus,60000);
 
 // Handpicked featured clips: add YouTube video/Short IDs here, in preferred display order.
 // Example: {id:'VIDEO_ID', title:'An unforgettable gaming moment', game:'Fortnite'}
-const FEATURED_CLIPS = [];
+const FEATURED_CLIPS = [
+  {
+    "id": "iYnyj1DcIdc",
+    "title": "Misdemeanor Tried to Save Me… Now We're BOTH Stuck! 😂",
+    "game": "Burglin' Gnomes"
+  },
+  {
+    "id": "VcmaHuAoBPs",
+    "title": "Chat Made Me Dance to Barbie Girl! 💃😂",
+    "game": "Twitch Channel Points"
+  },
+  {
+    "id": "dDVazm7L1KY",
+    "title": "They Kicked It to the WRONG GUY! 🏈🔥",
+    "game": "EA College Football"
+  },
+  {
+    "id": "wIOM9IKb18E",
+    "title": "Dom Hit Me With a WWE Move From the Top Rope! 💀😂",
+    "game": "R.E.P.O."
+  },
+  {
+    "id": "HEQEe9Y1iPM",
+    "title": "I Stole 1st Place at the Last Second! 🏁🔥",
+    "game": "Crash Bandicoot: Warped"
+  },
+  {
+    "id": "n5WtYNC8PHM",
+    "title": "The Mimic Dragged Me Away! 😭",
+    "game": "Lethal Company"
+  }
+];
 function renderFeaturedClips(){
  const grid=document.getElementById('featured-clips-grid');
  if(!grid||!FEATURED_CLIPS.length)return;
