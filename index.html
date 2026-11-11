@@ -192,7 +192,8 @@ const TRUSTED_DISCORDS=[
   {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/Jx5fGDg7W3'},
   {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/Y8Q7vwQMAe'},
   {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/VEqw5WvSGP'},
-  {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/zyfvnSJgnj'}
+  {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/zyfvnSJgnj'},
+  {name:'Featured Community',description:'Explore this featured Discord community.',invite:'https://discord.gg/6WQfsQSUj'}
 ];
 const trustedGrid=document.getElementById('trusted-discord-grid');
 if(TRUSTED_DISCORDS.length){trustedGrid.replaceChildren();for(const server of TRUSTED_DISCORDS){if(!server.name||!server.invite||!/^https:\/\/(discord\.gg|discord\.com\/invite)\//i.test(server.invite))continue;const card=document.createElement('article');card.className='trusted-card';const icon=document.createElement('span');icon.className='trusted-icon';icon.textContent='⚡';const label=document.createElement('span');label.className='trusted-label';label.textContent='TRUSTED COMMUNITY';const title=document.createElement('h3');title.textContent=server.name;const desc=document.createElement('p');desc.textContent=server.description||'Discover this community on Discord.';const a=document.createElement('a');a.className='btn secondary';a.href=server.invite;a.target='_blank';a.rel='noopener noreferrer';a.textContent='JOIN DISCORD ↗';card.append(icon,label,title,desc,a);trustedGrid.append(card);
