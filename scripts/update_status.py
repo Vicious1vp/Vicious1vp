@@ -94,6 +94,20 @@ def youtube():
         vid=video['id']
         output[kind]={'id':vid,'title':info.get('title','YouTube upload'),'thumbnail':thumb,'published_at':info.get('publishedAt',''),'url':('https://www.youtube.com/shorts/' if kind=='short' else 'https://www.youtube.com/watch?v=')+vid}
         if output['video'] and output['short']: break
+    # Curated candidate pool from public uploads; no API key is published.
+    candidates=[]
+    for v in sorted(videos,key=lambda x:x.get('snippet',{}).get('publishedAt',''),reverse=True):
+        if v.get('status',{}).get('privacyStatus')!='public': continue
+        snippet=v.get('snippet',{})
+        title=snippet.get('title','').strip()
+        if not title or title.lower() in ('private video','deleted video'): continue
+        duration=v.get('contentDetails',{}).get('duration','')
+        m=re.fullmatch(r'P(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?',duration)
+        if not m: continue
+        seconds=int(m.group(1) or 0)*86400+int(m.group(2) or 0)*3600+int(m.group(3) or 0)*60+int(m.group(4) or 0)
+        if not 1<=seconds<=180: continue
+        candidates.append({'id':v['id'],'title':title,'published_at':snippet.get('publishedAt',''),'thumbnail':(snippet.get('thumbnails',{}).get('high') or {}).get('url','')})
+    write('youtube-clip-candidates.json',{'clips':candidates[:60],'checked_at':datetime.now(timezone.utc).isoformat()})
     output['checked_at']=datetime.now(timezone.utc).isoformat()
     write('youtube-latest.json',output)
 
